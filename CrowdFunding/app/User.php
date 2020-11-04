@@ -18,7 +18,7 @@ class User extends Authenticatable
      */
     protected static function boot()
     {
-        // parent::boot();
+        parent::boot();
         static::creating(function ($model) {
             if (!$model->getKey()) {
                 $model->{$model->getKeyName()} = (string) Str::uuid();
@@ -81,5 +81,22 @@ class User extends Authenticatable
     public function otp_code()
     {
         return $this->hasOne('App\Otp_code', 'user_id');
+    }
+
+    public function isAdmin()
+    {
+        $theRole = Role::find($this->role_id)->role_name;
+        if ($theRole == "admin") {
+            return true;
+        }
+        return false;
+    }
+
+    public function isVerifiedEmail()
+    {
+        if ($this->email_verified_at != null) {
+            return true;
+        }
+        return false;
     }
 }
