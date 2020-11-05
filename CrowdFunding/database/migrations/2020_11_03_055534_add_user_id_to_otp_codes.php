@@ -15,7 +15,7 @@ class AddUserIdToOtpCodes extends Migration
     {
         Schema::table('otp_codes', function (Blueprint $table) {
             $table->uuid('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
