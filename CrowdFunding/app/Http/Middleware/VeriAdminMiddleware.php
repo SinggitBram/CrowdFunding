@@ -19,6 +19,6 @@ class VeriAdminMiddleware
         if (Auth::user()->isAdmin()) {
             return $next($request);
         }
-        abort(404);
+        abort(403);
     }
 }

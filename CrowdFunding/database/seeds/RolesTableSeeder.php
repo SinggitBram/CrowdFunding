@@ -14,11 +14,11 @@ class RolesTableSeeder extends Seeder
     {
         DB::table('roles')->insert([
             [
-                'id' => "0",
+                'id' => Str::uuid()->toString(),
                 'role_name' => 'user',
             ],
             [
-                'id' => "1",
+                'id' => Str::uuid()->toString(),
                 'role_name' => 'admin',
             ]
         ]);

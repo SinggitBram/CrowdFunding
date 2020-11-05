@@ -19,6 +19,6 @@ class VeriEmailMiddleware
         if (Auth::user()->isVerifiedEmail()) {
             return $next($request);
         }
-        abort(403);
+        abort(404);
     }
 }

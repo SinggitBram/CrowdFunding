@@ -23,7 +23,14 @@ class User extends Authenticatable
             if (!$model->getKey()) {
                 $model->{$model->getKeyName()} = (string) Str::uuid();
             }
+            $model->role_id = $model->get_user_id();
         });
+    }
+
+    protected function get_user_id()
+    {
+        $role = \App\Role::where('role_name','user')->first();
+        return $role->id;
     }
 
     /**
