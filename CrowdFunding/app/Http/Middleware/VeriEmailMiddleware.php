@@ -19,6 +19,9 @@ class VeriEmailMiddleware
         if (Auth::user()->isVerifiedEmail()) {
             return $next($request);
         }
-        abort(404);
+        return response()->json([
+            'message' => 'Email Anda Belum Terverifikasi'
+        ]);
+        // abort(404);
     }
 }

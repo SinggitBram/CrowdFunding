@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+// use App\Role;
 
 class RolesTableSeeder extends Seeder
 {
@@ -12,6 +13,9 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
+        // Role::insert({
+        // });
+            
         DB::table('roles')->insert([
             [
                 'id' => Str::uuid()->toString(),

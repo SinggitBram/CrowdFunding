@@ -19,6 +19,9 @@ class VeriAdminMiddleware
         if (Auth::user()->isAdmin()) {
             return $next($request);
         }
-        abort(403);
+        return response()->json([
+            'message' => 'Anda Bukan Admin'
+        ]);
+        // abort(403);
     }
 }
