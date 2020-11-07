@@ -21,9 +21,14 @@
 
 
 
-    Route::post('register', 'Auth\RegisterController');
-    Route::post('verification', 'Auth\VerificationOtpController');
-    Route::post('regenerate-otp', 'Auth\RegenerateOtpController');
-    Route::post('update-password', 'Auth\UpdatePasswordController');
-    Route::post('login', 'Auth\LoginController');
+Route::post('register', 'Auth\RegisterController');
+Route::post('verification', 'Auth\VerificationOtpController');
+Route::post('regenerate-otp', 'Auth\RegenerateOtpController');
+Route::post('update-password', 'Auth\UpdatePasswordController');
+Route::post('login', 'Auth\LoginController');
 
+
+Route::middleware(['veriLoginMiddleware'])->group(function () {
+    Route::get('profile/get-profile', 'ProfileController@show');
+    Route::post('profile/update-profile', 'ProfileController@update');
+});

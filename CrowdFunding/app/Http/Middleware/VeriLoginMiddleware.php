@@ -3,9 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Auth;
 
-class VeriEmailMiddleware
+class VeriLoginMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,12 +16,12 @@ class VeriEmailMiddleware
     public function handle($request, Closure $next)
     {
         $user = $request->user();
-        if ($user->email_verified_at != null) {
+        if ($user != null) {
             return $next($request);
-        }
+        };
         return response()->json([
-            'message' => 'Email Anda Belum Terverifikasi'
+            'message' => 'Anda belum login'
         ]);
-        // abort(404);
+
     }
 }

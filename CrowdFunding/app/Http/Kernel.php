@@ -63,7 +63,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'veriEmailMiddleware' => \App\Http\Middleware\VeriEmailMiddleware::class,
         'veriAdminMiddleware' => \App\Http\Middleware\VeriAdminMiddleware::class,
-
+        'veriLoginMiddleware' => \App\Http\Middleware\VeriLoginMiddleware::class,
     ];
 
     /**
