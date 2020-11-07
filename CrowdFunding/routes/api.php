@@ -17,8 +17,13 @@
 //     return $request->user();
 // });
 
-Route::post('register','Auth\RegisterController');
 
-Route::post('verification','Auth\VerificationOtpController');
 
-Route::post('regenerate-otp','Auth\RegenerateOtpController');
+
+
+    Route::post('register', 'Auth\RegisterController');
+    Route::post('verification', 'Auth\VerificationOtpController');
+    Route::post('regenerate-otp', 'Auth\RegenerateOtpController');
+    Route::post('update-password', 'Auth\UpdatePasswordController');
+    Route::post('login', 'Auth\LoginController');
+

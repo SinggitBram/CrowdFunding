@@ -19,6 +19,10 @@ class RegenerateOtpController extends Controller
      */
     public function __invoke(Request $request)
     {
+        request()->validate([
+            'email' => ['email', 'required']
+        ]);
+
 
         $user = User::where('email' , request('email'))->first();
         $otp_code = Otp_code::where('user_id',$user->id);

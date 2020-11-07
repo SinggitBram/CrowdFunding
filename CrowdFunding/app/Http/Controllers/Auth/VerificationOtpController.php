@@ -18,6 +18,10 @@ class VerificationOtpController extends Controller
      */
     public function __invoke(Request $request)
     {
+
+        request()->validate([
+            'otp' => ['string', 'required'],
+        ]);
         $otp_code = Otp_code::where('otp_code',request('otp'))->first();
 
         if(!$otp_code){
