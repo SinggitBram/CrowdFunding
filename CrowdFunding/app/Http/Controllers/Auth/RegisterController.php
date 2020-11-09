@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use App\Otp_code;
 use Carbon\Carbon;
+use Mail;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
+use App\Mail\RegisterOtpMail;
 use Illuminate\Http\Request;
+use App\Events\RegisterOtpEvent;
 
 class RegisterController extends Controller
 {
@@ -38,6 +41,10 @@ class RegisterController extends Controller
             'valid_until' => $otpExpires,
             'user_id' => $newUser->id,
         ]);
+
+        $newUser['code'] = $randomOtp;
+        event(new RegisterOtpEvent($newUser));
+        $newUser->makeHidden(['code']);
 
         return response()->json([
             'response_code' => "00",

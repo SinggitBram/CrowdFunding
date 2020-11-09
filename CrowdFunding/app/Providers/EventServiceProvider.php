@@ -18,6 +18,10 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        'App\Events\RegisterOtpEvent' => [
+            'App\Listeners\SendEmailOtp',//bisa banyak di sini misal send WA
+        ],
+
     ];
 
     /**

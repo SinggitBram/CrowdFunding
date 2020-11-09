@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Events\RegisterOtpEvent;
 
 class RegenerateOtpController extends Controller
 {
@@ -36,7 +37,9 @@ class RegenerateOtpController extends Controller
             'valid_until' => $otpExpires,
             'user_id' => $user->id,
         ]);
-
+        $user['code'] = $randomOtp;
+        event(new RegisterOtpEvent($user));
+        $user->makeHidden(['code']);
         return response()->json([
             'response_code' => "00",
             'response_message' => 'silahkan cek email',
