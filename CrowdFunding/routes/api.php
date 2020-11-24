@@ -32,3 +32,11 @@ Route::middleware(['veriLoginMiddleware'])->group(function () {
     Route::get('profile/get-profile', 'ProfileController@show');
     Route::post('profile/update-profile', 'ProfileController@update');
 });
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'campaign',
+], function () {
+    Route::get('random/{count}', 'CampaignController@random');
+    Route::post('store', 'CampaignController@store');
+});
