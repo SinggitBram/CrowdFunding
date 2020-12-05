@@ -38520,7 +38520,7 @@ var render = function() {
       _vm.isHome
         ? _c(
             "v-app-bar",
-            { attrs: { app: "", color: "indigo darken-1", dark: "" } },
+            { attrs: { app: "", color: "indigo darken-4", dark: "" } },
             [
               _c("v-app-bar-nav-icon", {
                 on: {
@@ -38531,7 +38531,7 @@ var render = function() {
                 }
               }),
               _vm._v(" "),
-              _c("v-toolbar-title", [_vm._v("DomZ Crowd Funding")]),
+              _c("v-toolbar-title", [_vm._v("Crowd Funding")]),
               _vm._v(" "),
               _c("v-spacer"),
               _vm._v(" "),
@@ -97943,6 +97943,12 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     name: "campaigns",
     component: function component() {
       return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./views/Campaigns.vue */ "./resources/js/views/Campaigns.vue"));
+    }
+  }, {
+    path: "/campaign/:id",
+    name: "campaign",
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./views/Campaign.vue */ "./resources/js/views/Campaign.vue"));
     }
   }, {
     path: "/blogs",

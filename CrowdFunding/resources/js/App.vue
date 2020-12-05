@@ -52,11 +52,11 @@
       </v-navigation-drawer>
 
       <!-- header -->
-      <v-app-bar app color="indigo darken-1" dark v-if="isHome">
+      <v-app-bar app color="indigo darken-4" dark v-if="isHome">
          <v-app-bar-nav-icon
             @click.stop="drawer = !drawer"
          ></v-app-bar-nav-icon>
-         <v-toolbar-title>DomZ Crowd Funding</v-toolbar-title>
+         <v-toolbar-title>Crowd Funding</v-toolbar-title>
 
          <v-spacer></v-spacer>
 
@@ -82,7 +82,7 @@
          </v-text-field>
       </v-app-bar>
 
-      <v-app-bar app color="indigo darken-1" dark v-else>
+      <v-app-bar app color="indigo darken-1" dark v-else class="">
          <v-btn icon @click.stop="$router.go(-1)">
             <v-icon>mdi-arrow-left-circle</v-icon>
          </v-btn>

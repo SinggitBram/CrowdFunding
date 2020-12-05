@@ -70,6 +70,20 @@ class CampaignController extends Controller
         $campaigns = Campaign::paginate(4);
 
         $data['campaigns'] = $campaigns;
+
+        return response()->json([
+            'response_code' => '00',
+            'response_message' => 'data campaigns berhasil ditampilkan',
+            'data' => $data
+        ], 200);
+    }
+
+    public function detail($id)
+    {
+        $campaign = Campaign::find($id);
+
+        $data['campaign'] = $campaign;
+
         return response()->json([
             'response_code' => '00',
             'response_message' => 'data campaigns berhasil ditampilkan',

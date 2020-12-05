@@ -23,6 +23,11 @@ const router = new Router({
             component: () => import("./views/Campaigns.vue")
         },
         {
+            path: "/campaign/:id",
+            name: "campaign",
+            component: () => import("./views/Campaign.vue")
+        },
+        {
             path: "/blogs",
             name: "blogs",
             component: () => import("./views/Blogs.vue")
@@ -34,4 +39,4 @@ const router = new Router({
     ]
 });
 
-export default router
+export default router;

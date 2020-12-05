@@ -40,6 +40,7 @@ Route::group([
     Route::get('random/{count}', 'CampaignController@random');
     Route::post('store', 'CampaignController@store');
     Route::get('/', 'CampaignController@index');
+    Route::get('/{id}', 'CampaignController@detail');
 });
 
 Route::group([
@@ -48,5 +49,6 @@ Route::group([
 ], function () {
     Route::get('random/{count}', 'BlogController@random');
     Route::post('store', 'BlogController@store');
-    // Route::post('/', 'BlogController@index');
+    // Route::get('/', 'BlogController@index');
+    // Route::get('/{id}','BlogController@detail');
 });
