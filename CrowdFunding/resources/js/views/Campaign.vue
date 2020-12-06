@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
    data: () => ({
       campaign: {},
@@ -67,9 +68,12 @@ export default {
                console.log(responses);
             });
       },
-      donate() {
-         alert("donate");
-      },
+      ...mapMutations({
+         donate: "transaction/insert",
+      }),
+      //   donate() {
+      //      this.$store.commit("insert");
+      //   },
    },
 };
 </script>

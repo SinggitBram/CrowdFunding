@@ -1,5 +1,6 @@
 import Vue from "vue";
 import router from "./router.js";
+import store from "./store.js";
 import App from "./App.vue";
 import vuetify from './plugins/vuetify.js'; // path to vuetify export
 import './bootstrap.js';
@@ -7,6 +8,7 @@ import './bootstrap.js';
 const app = new Vue({
     el: "#app",
     router,
+    store,
     vuetify,
     components: {
         App
