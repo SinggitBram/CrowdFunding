@@ -2148,9 +2148,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "App",
+  components: {
+    Alert: function Alert() {
+      return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./components/Alert */ "./resources/js/components/Alert.vue"));
+    }
+  },
   data: function data() {
     return {
       drawer: true,
@@ -2163,7 +2191,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         icon: "mdi-hand-heart",
         route: "/campaigns"
       }],
-      guest: false
+      guest: false // snackbarStatus: false,
+      // snackbarText: "Transaksi Berhasil Ditambahkan",
+
     };
   },
   computed: _objectSpread({
@@ -2171,8 +2201,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return this.$route.path === "/" || this.$route.path === "home";
     }
   }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
-    transactions: 'transaction/transactions'
-  }))
+    transactions: "transaction/transactions"
+  })) // mounted() {
+  //    this.snackbarStatus = true;
+  // },
+
 });
 
 /***/ }),
@@ -38385,6 +38418,8 @@ var render = function() {
   return _c(
     "v-app",
     [
+      _c("alert"),
+      _vm._v(" "),
       _c(
         "v-navigation-drawer",
         {
@@ -99281,13 +99316,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _stores_transaction_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./stores/transaction.js */ "./resources/js/stores/transaction.js");
+/* harmony import */ var _stores_alert_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./stores/alert.js */ "./resources/js/stores/alert.js");
+
 
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   modules: {
-    transaction: _stores_transaction_js__WEBPACK_IMPORTED_MODULE_2__["default"]
+    transaction: _stores_transaction_js__WEBPACK_IMPORTED_MODULE_2__["default"],
+    alert: _stores_alert_js__WEBPACK_IMPORTED_MODULE_3__["default"]
   } // state: {
   //     transaction: 0
   // },
@@ -99302,6 +99340,51 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
   // }
 
 }));
+
+/***/ }),
+
+/***/ "./resources/js/stores/alert.js":
+/*!**************************************!*\
+  !*** ./resources/js/stores/alert.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: {
+    status: false,
+    color: "success",
+    //warning error info
+    text: ""
+  },
+  mutations: {
+    set: function set(state, payload) {
+      state.status = payload.status;
+      state.color = payload.color;
+      state.text = payload.text;
+    }
+  },
+  actions: {
+    set: function set(_ref, payload) {
+      var commit = _ref.commit;
+      commit("set", payload);
+    }
+  },
+  getters: {
+    status: function status(state) {
+      return state.status;
+    },
+    color: function color(state) {
+      return state.color;
+    },
+    text: function text(state) {
+      return state.text;
+    }
+  }
+});
 
 /***/ }),
 

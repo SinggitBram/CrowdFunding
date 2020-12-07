@@ -1,5 +1,28 @@
 <template>
    <v-app>
+      <alert></alert>
+      <!-- <v-snackbar
+         v-model="snackbarStatus"
+         color="success"
+         bottom
+         timeout="4000"
+         multi-line
+         outlined
+      >
+         {{ snackbarText }}
+
+         <template v-slot:action="{ attrs }">
+            <v-btn
+               color="red"
+               text
+               v-bind="attrs"
+               @click="snackbarStatus = false"
+            >
+               Close
+            </v-btn>
+         </template>
+      </v-snackbar> -->
+
       <!-- sidebar -->
       <v-navigation-drawer app v-model="drawer">
          <v-list>
@@ -120,6 +143,9 @@
 import { mapGetters } from "vuex";
 export default {
    name: "App",
+   components: {
+      Alert: () => import("./components/Alert"),
+   },
    data: () => ({
       drawer: true,
       menus: [
@@ -127,17 +153,22 @@ export default {
          { title: "Campaigns", icon: "mdi-hand-heart", route: "/campaigns" },
       ],
       guest: false,
+      // snackbarStatus: false,
+      // snackbarText: "Transaksi Berhasil Ditambahkan",
    }),
    computed: {
       isHome() {
          return this.$route.path === "/" || this.$route.path === "home";
       },
       ...mapGetters({
-         transactions : 'transaction/transactions'
-      })
+         transactions: "transaction/transactions",
+      }),
       // transaction() {
       //    return this.$store.getters.transaction;
       // },
    },
+   // mounted() {
+   //    this.snackbarStatus = true;
+   // },
 };
 </script>
