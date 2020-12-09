@@ -1,27 +1,15 @@
 <template>
    <v-app>
-      <alert></alert>
-      <!-- <v-snackbar
-         v-model="snackbarStatus"
-         color="success"
-         bottom
-         timeout="4000"
-         multi-line
-         outlined
-      >
-         {{ snackbarText }}
+      <alert />
 
-         <template v-slot:action="{ attrs }">
-            <v-btn
-               color="red"
-               text
-               v-bind="attrs"
-               @click="snackbarStatus = false"
-            >
-               Close
-            </v-btn>
-         </template>
-      </v-snackbar> -->
+      <v-dialog
+         v-model="dialog"
+         fullscreen
+         hide-overlay
+         transition="scale-transition"
+      >
+         <search @closed="closeDialog" />
+      </v-dialog>
 
       <!-- sidebar -->
       <v-navigation-drawer app v-model="drawer">
@@ -102,6 +90,7 @@
             prepend-inner-icon="mdi-magnify"
             solo-inverted
             class="mb-5"
+            @click="dialog = true"
          >
          </v-text-field>
       </v-app-bar>
@@ -141,20 +130,22 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import Alert from "./components/Alert.vue";
+import Search from "./components/Search.vue";
 export default {
    name: "App",
    components: {
       Alert: () => import("./components/Alert"),
+      Search: () => import("./components/Search"),
    },
    data: () => ({
-      drawer: true,
+      drawer: false,
       menus: [
          { title: "Home", icon: "mdi-home", route: "/" },
          { title: "Campaigns", icon: "mdi-hand-heart", route: "/campaigns" },
       ],
       guest: false,
-      // snackbarStatus: false,
-      // snackbarText: "Transaksi Berhasil Ditambahkan",
+      dialog: false,
    }),
    computed: {
       isHome() {
@@ -163,12 +154,11 @@ export default {
       ...mapGetters({
          transactions: "transaction/transactions",
       }),
-      // transaction() {
-      //    return this.$store.getters.transaction;
-      // },
    },
-   // mounted() {
-   //    this.snackbarStatus = true;
-   // },
+   methods: {
+      closeDialog(value) {
+         this.dialog = value;
+      },
+   },
 };
 </script>
