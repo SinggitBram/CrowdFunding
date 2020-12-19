@@ -28,6 +28,7 @@ class LoginController extends Controller
             return response()->json([
                 'response_code' => '01',
                 'response_message' => 'Email atau Password anda salah',
+                'error' => 'Email atau Password anda salah'
             ], 401);
         } elseif ($user->email_verified_at == null) {
             return response()->json([

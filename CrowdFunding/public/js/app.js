@@ -2162,6 +2162,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2173,6 +2191,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     Search: function Search() {
       return Promise.resolve(/*! import() */).then(__webpack_require__.bind(null, /*! ./components/Search */ "./resources/js/components/Search.vue"));
+    },
+    Login: function Login() {
+      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./components/Login */ "./resources/js/components/Login.vue"));
     }
   },
   data: function data() {
@@ -2186,23 +2207,63 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         title: "Campaigns",
         icon: "mdi-hand-heart",
         route: "/campaigns"
-      }],
-      guest: false,
-      dialog: false
+      }] // dialog: false,
+
     };
   },
-  computed: _objectSpread({
+  computed: _objectSpread(_objectSpread({
     isHome: function isHome() {
       return this.$route.path === "/" || this.$route.path === "home";
     }
   }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
-    transactions: "transaction/transactions"
-  })),
-  methods: {
-    closeDialog: function closeDialog(value) {
-      this.dialog = value;
+    transactions: "transaction/transactions",
+    guest: "auth/guest",
+    user: "auth/user",
+    dialogStatus: "dialog/status",
+    currentComponent: "dialog/component"
+  })), {}, {
+    dialog: {
+      get: function get() {
+        return this.dialogStatus;
+      },
+      set: function set(value) {
+        this.setDialogStatus(value);
+      }
     }
-  }
+  }),
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
+    setDialogStatus: "dialog/setStatus",
+    setDialogComponent: "dialog/setComponent",
+    setAuth: "auth/set",
+    setAlert: "alert/set"
+  })), {}, {
+    logout: function logout() {
+      var _this = this;
+
+      var config = {
+        headers: {
+          Authorization: "Bearer" + this.user.token
+        }
+      };
+      axios.post("/api/logout", {}, config).then(function (response) {
+        _this.setAuth({});
+
+        _this.setAlert({
+          status: true,
+          color: "success",
+          text: "Logout successful"
+        });
+      })["catch"](function (error) {
+        var data = error.response.data;
+
+        _this.setAlert({
+          status: true,
+          color: "error",
+          text: data.message
+        });
+      });
+    }
+  })
 });
 
 /***/ }),
@@ -2330,7 +2391,7 @@ __webpack_require__.r(__webpack_exports__);
   name: "search",
   components: {
     CampaignItem: function CampaignItem() {
-      return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./CampaignItem */ "./resources/js/components/CampaignItem.vue"));
+      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./CampaignItem */ "./resources/js/components/CampaignItem.vue"));
     }
   },
   data: function data() {
@@ -38576,22 +38637,34 @@ var render = function() {
       _c("alert"),
       _vm._v(" "),
       _c(
-        "v-dialog",
-        {
-          attrs: {
-            fullscreen: "",
-            "hide-overlay": "",
-            transition: "scale-transition"
-          },
-          model: {
-            value: _vm.dialog,
-            callback: function($$v) {
-              _vm.dialog = $$v
+        "keep-alive",
+        [
+          _c(
+            "v-dialog",
+            {
+              attrs: {
+                fullscreen: "",
+                "hide-overlay": "",
+                persistent: "",
+                transition: "dialog-bottom-transition"
+              },
+              model: {
+                value: _vm.dialog,
+                callback: function($$v) {
+                  _vm.dialog = $$v
+                },
+                expression: "dialog"
+              }
             },
-            expression: "dialog"
-          }
-        },
-        [_c("search", { on: { closed: _vm.closeDialog } })],
+            [
+              _c(_vm.currentComponent, {
+                tag: "component",
+                on: { closed: _vm.setDialogStatus }
+              })
+            ],
+            1
+          )
+        ],
         1
       ),
       _vm._v(" "),
@@ -38612,7 +38685,10 @@ var render = function() {
                           [
                             _c(
                               "v-btn",
-                              { attrs: { block: "", color: "red", dark: "" } },
+                              {
+                                attrs: { block: "", color: "red", dark: "" },
+                                on: { click: _vm.logout }
+                              },
                               [
                                 _c("v-icon", [_vm._v("mdi-lock")]),
                                 _vm._v("\n               Logout\n            ")
@@ -38649,20 +38725,17 @@ var render = function() {
                     [
                       _c(
                         "v-list-item-avatar",
-                        [
-                          _c("v-img", {
-                            attrs: {
-                              src:
-                                "https://randomuser.me/api/portraits/men/43.jpg"
-                            }
-                          })
-                        ],
+                        [_c("v-img", { attrs: { src: _vm.user.user.photo } })],
                         1
                       ),
                       _vm._v(" "),
                       _c(
                         "v-list-item-content",
-                        [_c("v-list-item-title", [_vm._v("Lionel Messi")])],
+                        [
+                          _c("v-list-item-title", [
+                            _vm._v(_vm._s(_vm.user.user.name))
+                          ])
+                        ],
                         1
                       )
                     ],
@@ -38679,7 +38752,12 @@ var render = function() {
                         "v-btn",
                         {
                           staticClass: "mb-1",
-                          attrs: { block: "", color: "primary" }
+                          attrs: { block: "", color: "primary" },
+                          on: {
+                            click: function($event) {
+                              return _vm.setDialogComponent("login")
+                            }
+                          }
                         },
                         [
                           _c("v-icon", { attrs: { left: "" } }, [
@@ -38809,7 +38887,7 @@ var render = function() {
                 },
                 on: {
                   click: function($event) {
-                    _vm.dialog = true
+                    return _vm.setDialogComponent("search")
                   }
                 },
                 slot: "extension"
@@ -99524,7 +99602,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _router_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./router.js */ "./resources/js/router.js");
-/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./store.js */ "./resources/js/store.js");
+/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store.js */ "./resources/js/store.js");
 /* harmony import */ var _App_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./App.vue */ "./resources/js/App.vue");
 /* harmony import */ var _plugins_vuetify_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./plugins/vuetify.js */ "./resources/js/plugins/vuetify.js");
 /* harmony import */ var _bootstrap_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./bootstrap.js */ "./resources/js/bootstrap.js");
@@ -99539,7 +99617,7 @@ __webpack_require__.r(__webpack_exports__);
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: "#app",
   router: _router_js__WEBPACK_IMPORTED_MODULE_1__["default"],
-  store: _store_js__WEBPACK_IMPORTED_MODULE_6__["default"],
+  store: _store_js__WEBPACK_IMPORTED_MODULE_2__["default"],
   vuetify: _plugins_vuetify_js__WEBPACK_IMPORTED_MODULE_4__["default"],
   components: {
     App: _App_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
@@ -99784,13 +99862,13 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     path: "/donations",
     name: "donations",
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./views/Donations.vue */ "./resources/js/views/Donations.vue"));
+      return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./views/Donations.vue */ "./resources/js/views/Donations.vue"));
     }
   }, {
     path: "/campaigns",
     name: "campaigns",
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./views/Campaigns.vue */ "./resources/js/views/Campaigns.vue"));
+      return __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! ./views/Campaigns.vue */ "./resources/js/views/Campaigns.vue"));
     }
   }, {
     path: "/campaign/:id",
@@ -99802,7 +99880,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     path: "/blogs",
     name: "blogs",
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./views/Blogs.vue */ "./resources/js/views/Blogs.vue"));
+      return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./views/Blogs.vue */ "./resources/js/views/Blogs.vue"));
     }
   }, {
     path: "*",
@@ -99827,6 +99905,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _stores_transaction_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./stores/transaction.js */ "./resources/js/stores/transaction.js");
 /* harmony import */ var _stores_alert_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./stores/alert.js */ "./resources/js/stores/alert.js");
+/* harmony import */ var _stores_auth_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./stores/auth.js */ "./resources/js/stores/auth.js");
+/* harmony import */ var _stores_dialog_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./stores/dialog.js */ "./resources/js/stores/dialog.js");
+
+
 
 
 
@@ -99835,7 +99917,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   modules: {
     transaction: _stores_transaction_js__WEBPACK_IMPORTED_MODULE_2__["default"],
-    alert: _stores_alert_js__WEBPACK_IMPORTED_MODULE_3__["default"]
+    alert: _stores_alert_js__WEBPACK_IMPORTED_MODULE_3__["default"],
+    auth: _stores_auth_js__WEBPACK_IMPORTED_MODULE_4__["default"],
+    dialog: _stores_dialog_js__WEBPACK_IMPORTED_MODULE_5__["default"]
   } // state: {
   //     transaction: 0
   // },
@@ -99892,6 +99976,90 @@ __webpack_require__.r(__webpack_exports__);
     },
     text: function text(state) {
       return state.text;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores/auth.js":
+/*!*************************************!*\
+  !*** ./resources/js/stores/auth.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: {
+    user: {}
+  },
+  mutations: {
+    set: function set(state, payload) {
+      state.user = payload;
+    }
+  },
+  actions: {
+    set: function set(_ref, payload) {
+      var commit = _ref.commit;
+      commit("set", payload);
+    }
+  },
+  getters: {
+    user: function user(state) {
+      return state.user;
+    },
+    guest: function guest(state) {
+      return Object.keys(state.user).length === 0;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/stores/dialog.js":
+/*!***************************************!*\
+  !*** ./resources/js/stores/dialog.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: {
+    status: false,
+    component: "search" //bisa login ato yg laennya
+
+  },
+  mutations: {
+    setStatus: function setStatus(state, status) {
+      state.status = status;
+    },
+    setComponent: function setComponent(state, component) {
+      state.component = component;
+    }
+  },
+  actions: {
+    setStatus: function setStatus(_ref, status) {
+      var commit = _ref.commit;
+      commit("setStatus", status);
+    },
+    setComponent: function setComponent(_ref2, component) {
+      var commit = _ref2.commit;
+      commit("setComponent", component);
+      commit("setStatus", true);
+    }
+  },
+  getters: {
+    status: function status(state) {
+      return state.status;
+    },
+    component: function component(state) {
+      return state.component;
     }
   }
 });
