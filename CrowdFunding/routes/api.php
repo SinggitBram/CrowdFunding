@@ -27,6 +27,8 @@ Route::post('regenerate-otp', 'Auth\RegenerateOtpController');
 Route::post('update-password', 'Auth\UpdatePasswordController');
 Route::post('login', 'Auth\LoginController');
 Route::post('logout', 'Auth\LogoutController')->middleware('auth:api');
+Route::post('check-token', 'Auth\CheckTokenController')->middleware('auth:api');
+
 
 
 Route::middleware(['veriLoginMiddleware'])->group(function () {
