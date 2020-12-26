@@ -63,13 +63,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "login",
   data: function data() {
     return {
       valid: true,
-      email: "bramexample@dom.com",
+      email: "bramexample@example.com",
       emailRules: [function (v) {
         return !!v || "E-mail is required";
       }, function (v) {
@@ -133,6 +138,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     close: function close() {
       this.$emit("closed", false);
+    },
+    authProvider: function authProvider(provider) {
+      var _this2 = this;
+
+      var url = "/api/social/" + provider;
+      axios.get(url).then(function (response) {
+        var data = response.data;
+        window.location.href = data.url; // supaya halamannya pindah ke url google di atas
+      })["catch"](function (error) {
+        _this2.setAlert({
+          status: true,
+          text: "login Failed",
+          color: "error"
+        });
+      });
     }
   })
 });
@@ -256,6 +276,27 @@ var render = function() {
                       _vm._v("\n               Login\n               "),
                       _c("v-icon", { attrs: { right: "", dark: "" } }, [
                         _vm._v(" mdi-lock-open ")
+                      ])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary lighten-1" },
+                      on: {
+                        click: function($event) {
+                          return _vm.authProvider("google")
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n               Login with Google\n               "
+                      ),
+                      _c("v-icon", { attrs: { right: "", dark: "" } }, [
+                        _vm._v("mdi-google")
                       ])
                     ],
                     1

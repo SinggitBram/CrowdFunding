@@ -39,6 +39,11 @@
                   Login
                   <v-icon right dark> mdi-lock-open </v-icon>
                </v-btn>
+
+               <v-btn color="primary lighten-1" @click="authProvider('google')">
+                  Login with Google
+                  <v-icon right dark>mdi-google</v-icon>
+               </v-btn>
             </div>
          </v-form>
       </v-container>
@@ -52,7 +57,7 @@ export default {
    data() {
       return {
          valid: true,
-         email: "bramexample@dom.com",
+         email: "bramexample@example.com",
          emailRules: [
             (v) => !!v || `E-mail is required`,
             (v) =>
@@ -116,6 +121,22 @@ export default {
       },
       close() {
          this.$emit("closed", false);
+      },
+      authProvider(provider) {
+         let url = "/api/social/" + provider;
+         axios
+            .get(url)
+            .then((response) => {
+               let data = response.data;
+               window.location.href = data.url; // supaya halamannya pindah ke url google di atas
+            })
+            .catch((error) => {
+               this.setAlert({
+                  status: true,
+                  text: "login Failed",
+                  color: "error",
+               });
+            });
       },
    },
 };

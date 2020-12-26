@@ -100421,7 +100421,13 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     path: "/blogs",
     name: "blogs",
     component: function component() {
-      return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./views/Blogs.vue */ "./resources/js/views/Blogs.vue"));
+      return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./views/Blogs.vue */ "./resources/js/views/Blogs.vue"));
+    }
+  }, {
+    path: "/social/:provider/callback",
+    name: "social",
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./views/Social.vue */ "./resources/js/views/Social.vue"));
     }
   }, {
     path: "*",

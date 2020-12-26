@@ -18,9 +18,6 @@
 // });
 
 
-
-
-
 Route::post('register', 'Auth\RegisterController');
 Route::post('verification', 'Auth\VerificationOtpController');
 Route::post('regenerate-otp', 'Auth\RegenerateOtpController');
@@ -29,6 +26,8 @@ Route::post('login', 'Auth\LoginController');
 Route::post('logout', 'Auth\LogoutController')->middleware('auth:api');
 Route::post('check-token', 'Auth\CheckTokenController')->middleware('auth:api');
 
+Route::get('/social/{provider}', 'Auth\SocialiteController@redirectToProvider');
+Route::get('/social/{provider}/callback', 'Auth\SocialiteController@handleProviderCallback');
 
 
 Route::middleware(['veriLoginMiddleware'])->group(function () {
