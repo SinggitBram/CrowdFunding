@@ -38,6 +38,11 @@ const router = new Router({
             component: () => import("./views/Social.vue")
         },
         {
+            path: "/chat",
+            name: "chat",
+            component: () => import("./views/Chat.vue")
+        },
+        {
             path: "*",
             redirect: "/"
         }

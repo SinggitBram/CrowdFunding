@@ -26,6 +26,9 @@ Route::post('login', 'Auth\LoginController');
 Route::post('logout', 'Auth\LogoutController')->middleware('auth:api');
 Route::post('check-token', 'Auth\CheckTokenController')->middleware('auth:api');
 
+Route::get('/chat/all-chats', 'ChatController@all_chats');
+Route::post('/chat/store', 'ChatController@store');
+
 Route::get('/social/{provider}', 'Auth\SocialiteController@redirectToProvider');
 Route::get('/social/{provider}/callback', 'Auth\SocialiteController@handleProviderCallback');
 
