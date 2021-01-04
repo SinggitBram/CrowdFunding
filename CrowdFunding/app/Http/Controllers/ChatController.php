@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Chat;
 use App\User;
+use App\Events\ChatStoredEvent;
 use Illuminate\Http\Request;
 
 class ChatController extends Controller
@@ -28,6 +29,8 @@ class ChatController extends Controller
             'subject' => $request->subject,
             'user_id' => $theUser->id
         ]);
+
+        broadcast(new ChatStoredEvent($chat))->toOthers();
         return $chat;
     }
 }

@@ -2207,6 +2207,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         title: "Campaigns",
         icon: "mdi-hand-heart",
         route: "/campaigns"
+      }, {
+        title: "Chats",
+        icon: "mdi-message-text",
+        route: "/chat"
       }] // dialog: false,
 
     };
@@ -106314,21 +106318,51 @@ try {
 
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
  */
 
+var token = document.head.querySelector('meta[name="csrf-token"]');
+
+if (token) {
+  window.axios.defaults.headers.common["X-CSRF-TOKEN"] = token.content;
+} else {
+  console.error("CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token");
+}
+
 
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
-  broadcaster: 'pusher',
-  key: "44c7048e81bafd2f24a4",
-  cluster: "ap1",
-  encrypted: true
+  broadcaster: "pusher",
+  key: '44c7048e81bafd2f24a4',
+  cluster: 'ap1',
+  encrypted: false,
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  } // csrfToken: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+
 });
+
+__webpack_require__(/*! ./echo */ "./resources/js/echo.js");
+
+/***/ }),
+
+/***/ "./resources/js/bus.js":
+/*!*****************************!*\
+  !*** ./resources/js/bus.js ***!
+  \*****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ __webpack_exports__["default"] = (new vue__WEBPACK_IMPORTED_MODULE_0___default.a());
 
 /***/ }),
 
@@ -106467,6 +106501,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Search_vue_vue_type_template_id_5026ffd3___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/echo.js":
+/*!******************************!*\
+  !*** ./resources/js/echo.js ***!
+  \******************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _bus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bus */ "./resources/js/bus.js");
+
+Echo.join("chat-channel").here(function (users) {
+  _bus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit("chat.here", users);
+}).joining(function (user) {
+  _bus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit("chat.joining", user);
+}).leaving(function (user) {
+  _bus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit("chat.leaving", user);
+}).listen("ChatStoredEvent", function (e) {
+  _bus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit("chat.sent", e.data);
+});
 
 /***/ }),
 

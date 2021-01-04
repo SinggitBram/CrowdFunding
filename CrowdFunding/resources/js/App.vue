@@ -162,6 +162,7 @@ export default {
       menus: [
          { title: "Home", icon: "mdi-home", route: "/" },
          { title: "Campaigns", icon: "mdi-hand-heart", route: "/campaigns" },
+         { title: "Chats", icon: "mdi-message-text", route: "/chat" },
       ],
       // dialog: false,
    }),
