@@ -30,7 +30,7 @@ class User extends Authenticatable implements JWTSubject
 
     protected function get_user_id()
     {
-        $role = \App\Role::where('role_name','user')->first();
+        $role = \App\Role::where('role_name', 'user')->first();
         return $role->id;
     }
 
@@ -108,7 +108,7 @@ class User extends Authenticatable implements JWTSubject
         return false;
     }
 
-        // Rest omitted for brevity
+    // Rest omitted for brevity
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
@@ -130,7 +130,13 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function chats(){
+    public function chats()
+    {
         return $this->hasMany(Chat::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }
