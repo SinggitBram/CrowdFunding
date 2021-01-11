@@ -30,6 +30,7 @@ Route::get('/chat/all-chats', 'ChatController@all_chats');
 Route::post('/chat/store', 'ChatController@store');
 
 Route::post('payment/store', 'PaymentController@store');
+Route::post('generate','MidtransController@generate');
 
 Route::get('/social/{provider}', 'Auth\SocialiteController@redirectToProvider');
 Route::get('/social/{provider}/callback', 'Auth\SocialiteController@handleProviderCallback');

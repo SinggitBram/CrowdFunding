@@ -61,16 +61,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      campaign: {}
+      campaign: {},
+      data_midtrans: {
+        transaction_details: {
+          order_id: "order-12345678",
+          gross_amount: 250000
+        },
+        customer_details: {
+          first_name: "Singgit",
+          last_name: "Bramantha",
+          email: "bambadom@hotmail.com",
+          phone: "081122334455"
+        }
+      }
     };
   },
   created: function created() {
     this.go();
+  },
+  mounted: function mounted() {
+    var externalScript = document.createElement("script");
+    externalScript.setAttribute("src", "https://app.sandbox.midtrans.com/snap/snap.js");
+    externalScript.setAttribute("data-client-key", "SB-Mid-client-a8MkwEPi3uVzBjk-");
+    document.head.appendChild(externalScript);
   },
   methods: _objectSpread(_objectSpread(_objectSpread({
     go: function go() {
@@ -97,6 +114,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         status: true,
         color: "success",
         text: "Transaksi ditambahkan"
+      });
+    },
+    handlePayButton: function handlePayButton(e) {
+      axios.post("/api/generate", {
+        data: this.data_midtrans
+      }).then(function (response) {
+        console.log(response.data);
+        snap.pay(response.data.data.token);
+      })["catch"](function (response) {
+        console.log("error: " + response);
       });
     } //   ...mapMutations({
     //      donate: "transaction/insert",
@@ -232,7 +259,7 @@ var render = function() {
                         disabled:
                           _vm.campaign.collected >= _vm.campaign.required
                       },
-                      on: { click: _vm.donate }
+                      on: { click: _vm.handlePayButton }
                     },
                     [
                       _c("v-icon", [_vm._v("mdi-money")]),

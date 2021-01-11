@@ -30,7 +30,7 @@ class PaymentController extends Controller
         return response()->json([
             'response_code' => '00',
             'response_msg' => 'success',
-            'anu' => config('app.midtrans.server_key'),
+
             'data' => $response_midtrans
         ]);
     }
@@ -52,7 +52,7 @@ class PaymentController extends Controller
         switch ($order->method) {
             case 'bca':
                 $body = [
-                    'payment_type' => 'bank transfer',
+                    'payment_type' => 'bank_transfer',
                     'transaction_details' => [
                         'order_id' => $order->order_id,
                         'gross_amount' => $order->amount

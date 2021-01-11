@@ -34,7 +34,7 @@
             <v-btn
                block
                color="primary"
-               @click="donate"
+               @click="handlePayButton"
                :disabled="campaign.collected >= campaign.required"
             >
                <v-icon>mdi-money</v-icon> &nbsp; DONATE
@@ -43,15 +43,38 @@
       </v-card>
    </div>
 </template>
-
-<script>
+<script >
 import { mapActions, mapMutations } from "vuex";
 export default {
    data: () => ({
       campaign: {},
+      data_midtrans: {
+         transaction_details: {
+            order_id: "order-12345678",
+            gross_amount: 250000,
+         },
+         customer_details: {
+            first_name: "Singgit",
+            last_name: "Bramantha",
+            email: "bambadom@hotmail.com",
+            phone: "081122334455",
+         },
+      },
    }),
    created() {
       this.go();
+   },
+   mounted() {
+      let externalScript = document.createElement("script");
+      externalScript.setAttribute(
+         "src",
+         "https://app.sandbox.midtrans.com/snap/snap.js"
+      );
+      externalScript.setAttribute(
+         "data-client-key",
+         "SB-Mid-client-a8MkwEPi3uVzBjk-"
+      );
+      document.head.appendChild(externalScript);
    },
    methods: {
       go() {
@@ -81,6 +104,17 @@ export default {
             color: "success",
             text: "Transaksi ditambahkan",
          });
+      },
+      handlePayButton(e) {
+         axios
+            .post("/api/generate", { data: this.data_midtrans })
+            .then((response) => {
+               console.log(response.data);
+               snap.pay(response.data.data.token);
+            })
+            .catch((response) => {
+               console.log("error: " + response);
+            });
       },
       //   ...mapMutations({
       //      donate: "transaction/insert",
